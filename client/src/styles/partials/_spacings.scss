@@ -1,0 +1,116 @@
+/*
+Based on: https://gist.github.com/Eomerx/d69ccaf5fec88040b431
+This .scss loop will create "margin helpers" and "padding helpers" for use in your web projects.
+
+The first letter is "m" or "p" for MARGIN or PADDING
+Second letter (optional) is "t", "b", "l", or "r" for TOP, BOTTOM, LEFT, or RIGHT. No letter means: ALL
+Third char is the number of spacing in pixels.
+Fourth letters stands for screen size (breakpoint)
+
+It will generate several classes such as:
+.m-4  --> margin: 4px
+.p-4  --> padding: 4px
+.m-em075  --> margin: 0.75em
+.m-r-4  --> margin-right: 4px
+.m-r-16 --> margin-right: 16px
+.p-b-4  --> padding-bottom: 4px
+.p-l-32  --> padding-left: 32px
+.m-l-0-xs  --> margin-left: 0px; for screens NOT wider than $phone size
+.m-l-0-md  --> margin-left: 0px; for screens wider than $tablet size
+*/
+
+.m-a {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+$space-values-px: (
+    0 : 0,
+    4 : 4,
+    8 : 8,
+    16 : 16,
+    24 : 24,
+    32 : 32,
+    40 : 40,
+    48 : 48,
+    56 : 56,
+    64 : 64,
+    128 : 128
+) !default; // Adjust this to include the pixel amounts you need.
+
+$space-values-em: (
+    em075 : 0.75, // class wont work if we have -0 (dash zero)
+    em125 : 1.25,
+    em15 : 1.5,
+    em2 : 2,
+) !default;
+
+$space-prefixes:(
+    p  : padding,
+    p-t : padding-top,
+    p-r : padding-right,
+    p-b : padding-bottom,
+    p-l : padding-left,
+    m  : margin,
+    m-t : margin-top,
+    m-r : margin-right,
+    m-b : margin-bottom,
+    m-l : margin-left,
+  ) !default;
+
+$breakpoints: (
+  // Extra small screen / phone
+  xs: 0,
+  // Small screen / phone
+  sm: $phone,
+  // Medium screen / tablet
+  md: $tablet,
+  // Large screen / desktop
+  lg: $desktop,
+  // Extra large screen / wide desktop
+  xl: $widescreen,
+  // full hd
+  xxl: $fullhd
+) !default;
+
+@mixin make-space($values, $spacing-unit, $prefixes, $breakpoints) {
+    // for all screen sizes
+    @each $attr-short, $attr-long in $prefixes {
+        @each $value-name, $value in $values {
+            .#{$attr-short}-#{$value-name} {
+                #{$attr-long}: #{$value}#{$spacing-unit};
+            }
+        }
+    }
+
+    // for particular screen size
+    @each $breakpoint-name, $breakpoint-value in $breakpoints {
+        // up to phone
+        @if($breakpoint-value == 0) {
+            @media screen and (max-width: $phone-to) {
+                @each $attr-short, $attr-long in $prefixes {
+                    @each $value-name, $value in $values {
+                        .#{$attr-short}-#{$value-name}-#{$breakpoint-name} {
+                            #{$attr-long}: #{$value}#{$spacing-unit};
+                            }
+                    }
+                }
+            }
+        }
+        // breakpoint values that not equal to 0
+        @else {
+            @media screen and (min-width: $breakpoint-value) {
+                @each $attr-short, $attr-long in $prefixes {
+                    @each $value-name, $value in $values {
+                        .#{$attr-short}-#{$value-name}-#{$breakpoint-name} {
+                            #{$attr-long}: #{$value}#{$spacing-unit};
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include make-space($space-values-px, 'px', $space-prefixes, $breakpoints);
+@include make-space($space-values-em, 'em', $space-prefixes, $breakpoints);
