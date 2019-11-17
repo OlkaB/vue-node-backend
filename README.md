@@ -11,5 +11,4 @@ express.js
 sequelize / sqlite3
 jsonwebtoken
 
-#####
-contains learning notes in comments
+** contains learning notes in comments
