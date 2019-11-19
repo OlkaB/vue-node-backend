@@ -6,7 +6,10 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Toasted from 'vue-toasted'
 
-// global styles
+// filters
+import './filters/dateTime'
+
+// styles
 import '@/styles/styles.scss'
 
 Vue.config.productionTip = false

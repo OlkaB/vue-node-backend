@@ -15,10 +15,11 @@
                     </div>
                     <div class="media-content">
                         <div class="content">
+                            <h2 class="title is-size-4">
+                                {{ post.title }}
+                            </h2>
                             <p>
-                                <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                                <br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                                {{ post.text }}
                             </p>
                         </div>
                         <nav class="level is-mobile">
@@ -40,6 +41,10 @@
                                 </a>
                             </div>
                         </nav>
+                        <div class="level is-mobile">
+                            <small class="level-left"><strong>{{ post.author }}</strong> <span v-if="post.authorEmail">{{ post.authorEmail }}</span></small>
+                            <small class="level-right">Created at: {{ post.createdAt | dateFromDateTimeString }}</small>
+                        </div>
                     </div>
                 </article>
             </div>
@@ -55,7 +60,9 @@
 import { mapGetters } from 'vuex'
 export default {
     computed: {
-        ...mapGetters(['posts'])
+        ...mapGetters([
+            'posts'
+        ])
     },
     async created () {
         const posts = await this.axios.get('posts')
@@ -63,6 +70,15 @@ export default {
         if (posts && !!posts.data) {
             this.$store.dispatch('updatePosts', posts.data)
         }
+
+        // test patch request
+        // const postsPATCH = await this.axios.patch(`posts/${5}`, {
+        //     data: {
+        //         author: 'Amy LeeToo',
+        //         text: 'Ldkjshdska hdhakjds djaksdjkash jkdask',
+        //         title: 'Hello here my love here'
+        //     }
+        // })
     }
 }
 </script>
