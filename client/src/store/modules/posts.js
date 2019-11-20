@@ -9,6 +9,9 @@ const getters = {
 const actions = {
     updatePosts ({ commit }, data) {
         commit('updatePosts', data)
+    },
+    updatePost ({ commit }, data) {
+        commit('updatePost', data)
     }
 }
 
@@ -20,6 +23,14 @@ const mutations = {
         }
 
         state.posts = data
+    },
+    updatePost (state, data) {
+        if (!data) return
+
+        state.posts = state.posts.map(post => {
+            if (post.id === data.id) return data
+            return post
+        })
     }
 }
 

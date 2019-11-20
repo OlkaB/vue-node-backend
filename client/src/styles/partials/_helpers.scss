@@ -1,0 +1,9 @@
+.text {
+    &--12 {
+        @include em(12)
+    }
+
+    &--14 {
+        @include em(14)
+    }
+}
