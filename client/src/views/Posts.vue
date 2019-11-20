@@ -154,6 +154,7 @@ export default {
 
             await this.updatePost(postUpdated.data)
             this.handleCloseModal()
+            this.$toasted.success('Post has been edited successfully')
         }
     }
 }
