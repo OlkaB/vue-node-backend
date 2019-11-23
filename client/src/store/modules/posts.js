@@ -1,5 +1,5 @@
 const state = {
-    posts: null
+    posts: []
 }
 
 const getters = {

@@ -1,7 +1,11 @@
 <template>
     <div id="app">
         <app-menu />
-        <router-view class="content m-a m-t-8 p-16" />
+        <main class="bd-main">
+            <div class="container">
+                <router-view class="content m-a m-t-8" />
+            </div>
+        </main>
     </div>
 </template>
 
